@@ -6,6 +6,7 @@ using System.Text;
 using OpenPop.Mime.Decode;
 using OpenPop.Mime.Header;
 using OpenPop.Common;
+using System.Text.RegularExpressions;
 
 namespace OpenPop.Mime
 {
@@ -81,6 +82,14 @@ namespace OpenPop.Mime
 	/// </example>
 	public class MessagePart
 	{
+        #region Private Data Members
+
+        private bool? isInlineImage = null;
+
+        Message message;
+
+        #endregion Private Data Members
+
 		#region Public properties
 		/// <summary>
 		/// The Content-Type header field.<br/>
@@ -176,9 +185,28 @@ namespace OpenPop.Mime
 			get
 			{
 				// Inline is the opposite of attachment
-				return (!IsText && !IsMultiPart) || (ContentDisposition != null && !ContentDisposition.Inline);
+                //return (!IsText && !IsMultiPart) || (ContentDisposition != null && !ContentDisposition.Inline);
+                //return ((!IsText && !IsMultiPart) || ContentDisposition != null) && !IsInlineImage;
+                return (!IsText && !IsMultiPart) || ContentDisposition != null;
 			}
 		}
+
+        public bool IsInlineImage
+        {
+            get
+            {
+                if (isInlineImage.HasValue)
+                    return isInlineImage.Value;
+                else
+                {
+                    InitialiseIsInlineImage();
+                    if (isInlineImage.HasValue)
+                        return isInlineImage.Value;
+                    else
+                        return false;
+                }
+            }
+        }
 
 		/// <summary>
 		/// This is a convenient-property for figuring out a FileName for this <see cref="MessagePart"/>.<br/>
@@ -206,7 +234,7 @@ namespace OpenPop.Mime
 		/// <param name="rawBody">The body that needs to be parsed</param>
 		/// <param name="headers">The headers that should be used from the message</param>
 		/// <exception cref="ArgumentNullException">If <paramref name="rawBody"/> or <paramref name="headers"/> is <see langword="null"/></exception>
-		internal MessagePart(byte[] rawBody, MessageHeader headers)
+        internal MessagePart(byte[] rawBody, MessageHeader headers, Message message)
 		{
 			if(rawBody == null)
 				throw new ArgumentNullException("rawBody");
@@ -214,6 +242,7 @@ namespace OpenPop.Mime
 			if(headers == null)
 				throw new ArgumentNullException("headers");
 
+            this.message = message;
 			ContentType = headers.ContentType;
 			ContentDescription = headers.ContentDescription;
 			ContentTransferEncoding = headers.ContentTransferEncoding;
@@ -307,7 +336,7 @@ namespace OpenPop.Mime
 			// Now parse each byte array as a message body and add it the the MessageParts property
 			foreach (byte[] bodyPart in bodyParts)
 			{
-				MessagePart messagePart = GetMessagePart(bodyPart);
+                MessagePart messagePart = GetMessagePart(bodyPart, message);
 				MessageParts.Add(messagePart);
 			}
 		}
@@ -318,7 +347,7 @@ namespace OpenPop.Mime
 		/// </summary>
 		/// <param name="rawMessageContent">The byte array containing both headers and body of a message</param>
 		/// <returns>A <see cref="MessagePart"/> which was described by the <paramref name="rawMessageContent"/> byte array</returns>
-		private static MessagePart GetMessagePart(byte[] rawMessageContent)
+        private static MessagePart GetMessagePart(byte[] rawMessageContent, Message message)
 		{
 			// Find the headers and the body parts of the byte array
 			MessageHeader headers;
@@ -326,7 +355,7 @@ namespace OpenPop.Mime
 			HeaderExtractor.ExtractHeadersAndBody(rawMessageContent, out headers, out body);
 
 			// Create a new MessagePart from the headers and the body
-			return new MessagePart(body, headers);
+            return new MessagePart(body, headers, message);
 		}
 
 		/// <summary>
@@ -468,6 +497,54 @@ namespace OpenPop.Mime
 					throw new ArgumentOutOfRangeException("contentTransferEncoding");
 			}
 		}
+
+        private void InitialiseIsInlineImage()
+        {
+            //if its not even an attachment, it cant be an inline image
+            if (IsText || IsMultiPart)
+            {
+                isInlineImage = false;
+                return;
+            }
+
+            //if the message doesnt have a html body, this cant be an inline image
+            if (!message.IsBodyHTML)
+            {
+                isInlineImage = false;
+                return;
+            }
+
+            //if theres no content id, its not an inline image
+            if (string.IsNullOrEmpty(ContentId))
+            {
+                isInlineImage = false;
+                return;
+            }
+
+            //if the corrct header is present, its an inline image
+            if (ContentDisposition != null && ContentDisposition.Inline)
+            {
+                isInlineImage = true;
+                return;
+            }
+
+            //if we still dont know whether this is an inline image or not, we have to parse the email body to see if the contact id is referenced in an img tag
+            //looking for something like this: <img src="cid:1234">, also allowing for extra attributes like "alt" and variations in "' characters and whitespace
+            string pattern = "<\\s*img\\s+([^>]*\\s+)?src\\s?=\\s?['\"]?cid:" + Regex.Escape(ContentId) + "['\"]?\\s*([^>]*\\s*)?/?\\s*>";
+
+            if (Regex.IsMatch(message.HtmlBody, pattern))
+            {
+                isInlineImage = true;
+                return;
+            }
+            else
+            {
+                isInlineImage = false;
+                return;
+            }
+
+        }
+
 		#endregion
 
 		#region Public methods

@@ -29,6 +29,14 @@ namespace OpenPop.Mime
 	/// </example>
 	public class Message
 	{
+        #region Private Data Members
+
+        private bool? isBodyHTML = null;
+        private string htmlBody = string.Empty;
+        private string plainTextBody = string.Empty;
+
+        #endregion
+
 		#region Public properties
 		/// <summary>
 		/// Headers of the Message.
@@ -47,6 +55,46 @@ namespace OpenPop.Mime
 		/// These bytes can be persisted and later used to recreate the Message.
 		/// </summary>
 		public byte[] RawMessage { get; private set; }
+
+        public bool IsBodyHTML
+        {
+            get
+            {
+                if (isBodyHTML.HasValue)
+                    return isBodyHTML.Value;
+                else
+                {
+                    InitialiseBody();
+                    if (isBodyHTML.HasValue)
+                        return isBodyHTML.Value;
+                    else
+                        return false;
+                }
+            }
+        }
+
+        public string HtmlBody
+        {
+            get
+            {
+                //we are checking the value of isBodyHTML because we always expect it to have a value after initialisation, however, for the body, null is a valid value
+                if (!isBodyHTML.HasValue)
+                    InitialiseBody();
+                return htmlBody;
+            }
+        }
+
+        public string PlainTextBody
+        {
+            get
+            {
+                //we are checking the value of isBodyHTML because we always expect it to have a value after initialisation, however, for the body, null is a valid value
+                if (!isBodyHTML.HasValue)
+                    InitialiseBody();
+                return plainTextBody;
+            }
+        }
+
 		#endregion
 
 		#region Constructors
@@ -87,7 +135,7 @@ namespace OpenPop.Mime
 			if (parseBody)
 			{
 				// Parse the body into a MessagePart
-				MessagePart = new MessagePart(body, Headers);
+                MessagePart = new MessagePart(body, Headers, this);
 			}
 		}
 		#endregion
@@ -208,6 +256,25 @@ namespace OpenPop.Mime
 			return message;
 		}
 
+        private void InitialiseBody()
+        {
+            MessagePart htmlPartFirst = FindFirstHtmlVersionExcludingAttachments();
+            MessagePart plainTextPart = FindFirstPlainTextVersionExcludingAttachments();
+
+            if (htmlPartFirst != null)
+            {
+                isBodyHTML = true;
+                htmlBody = htmlPartFirst.GetBodyAsText();
+            }
+            else
+                isBodyHTML = false;
+
+            if (plainTextPart != null)
+                plainTextBody = plainTextPart.GetBodyAsText();
+
+        }
+
+
 		#region MessagePart Searching Methods
 
 		/// <summary>
@@ -268,6 +335,31 @@ namespace OpenPop.Mime
 		{
 			return new AttachmentFinder().VisitMessage(this);
 		}
+
+        public List<MessagePart> FindAllInlineImages()
+        {
+            return new InlineImageFinder().VisitMessage(this);
+        }
+
+        public List<MessagePart> FindAllAttachmentsExcludingInlineImages()
+        {
+            return new AttachmentWithoutInlineImageFinder().VisitMessage(this);
+        }
+
+        public MessagePart FindFirstPlainTextVersionExcludingAttachments()
+        {
+            return FindFirstMessagePartExcludingAttachmentsWithMediaType("text/plain");
+        }
+
+        public MessagePart FindFirstHtmlVersionExcludingAttachments()
+        {
+            return FindFirstMessagePartExcludingAttachmentsWithMediaType("text/html");
+        }
+
+        public MessagePart FindFirstMessagePartExcludingAttachmentsWithMediaType(string mediaType)
+        {
+            return new FindFirstMessagePartExcludingAttachmentsWithMediaType().VisitMessage(this, mediaType);
+        }
 
 		/// <summary>
 		/// Finds the first <see cref="MessagePart"/> in the <see cref="Message"/> hierarchy with the given MediaType.<br/>

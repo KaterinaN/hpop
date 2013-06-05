@@ -1,0 +1,146 @@
+Return-Path: <ryan.dansie@citrusservicedesk.com>
+Delivered-To: support@simplisys.co.uk
+Received: from Postfix filter 42a77884ce2a0a03efc6bb50a6dcdb21 (localhost.localdomain [127.0.0.1])
+	by smtp-in-110.livemail.co.uk (Postfix) with SMTP id D38A3D805C
+	for <support@simplisys.co.uk>; Wed,  3 Oct 2012 15:34:20 +0100 (BST)
+Received: from n1plout04-01.prod.ams1.secureserver.net (n1plout04-01.prod.ams1.secureserver.net [188.121.53.1])
+	by smtp-in-110.livemail.co.uk (Postfix) with SMTP id BF06CD805C
+	for <support@simplisys.co.uk>; Wed,  3 Oct 2012 15:34:20 +0100 (BST)
+Received: (qmail 17703 invoked from network); 3 Oct 2012 14:34:20 -0000
+Received: from unknown (94.195.239.12)
+  by n1plout04-01.prod.ams1.secureserver.net (188.121.53.1) with ESMTP; 03 Oct 2012 14:34:20 -0000
+From: "Ryan Dansie" <ryan.dansie@citrusservicedesk.com>
+To: <support@simplisys.co.uk>
+Subject: test inline image vs attachment
+Date: Wed, 3 Oct 2012 15:34:21 +0100
+Message-ID: <004401cda174$2e035120$8a09f360$@citrusservicedesk.com>
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+	boundary="----=_NextPart_000_0045_01CDA17C.8FC93FC0"
+X-Mailer: Microsoft Outlook 14.0
+Thread-Index: Ac2hdClORPNLZPeBT7azUy4KgkauhQ==
+Content-Language: en-gb
+X-Original-To: support@simplisys.co.uk
+
+This is a multipart message in MIME format.
+
+------=_NextPart_000_0045_01CDA17C.8FC93FC0
+Content-Type: multipart/related;
+	boundary="----=_NextPart_001_0046_01CDA17C.8FC93FC0"
+
+
+------=_NextPart_001_0046_01CDA17C.8FC93FC0
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_002_0047_01CDA17C.8FC93FC0"
+
+
+------=_NextPart_002_0047_01CDA17C.8FC93FC0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+
+Inline image here:
+
+
+
+
+------=_NextPart_002_0047_01CDA17C.8FC93FC0
+Content-Type: text/html;
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><META =
+HTTP-EQUIV=3D"Content-Type" CONTENT=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 14 =
+(filtered medium)"><!--[if !mso]><style>v\:* =
+{behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style><![endif]--><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	mso-fareast-language:EN-US;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+p.MsoAcetate, li.MsoAcetate, div.MsoAcetate
+	{mso-style-priority:99;
+	mso-style-link:"Balloon Text Char";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:8.0pt;
+	font-family:"Tahoma","sans-serif";
+	mso-fareast-language:EN-US;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri","sans-serif";
+	color:windowtext;}
+span.BalloonTextChar
+	{mso-style-name:"Balloon Text Char";
+	mso-style-priority:99;
+	mso-style-link:"Balloon Text";
+	font-family:"Tahoma","sans-serif";}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri","sans-serif";
+	mso-fareast-language:EN-US;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-GB link=3Dblue =
+vlink=3Dpurple><div class=3DWordSection1><p class=3DMsoNormal>Inline =
+image here:<o:p></o:p></p><p class=3DMsoNormal><span =
+style=3D'mso-fareast-language:EN-GB'><img width=3D10 height=3D10 =
+id=3D"Picture_x0020_1" =
+src=3D"cid:image001.png@01CDA17C.8F5FCF90"></span><o:p></o:p></p></div></=
+body></html>
+------=_NextPart_002_0047_01CDA17C.8FC93FC0--
+
+------=_NextPart_001_0046_01CDA17C.8FC93FC0
+Content-Type: image/png;
+	name="image001.png"
+Content-Transfer-Encoding: base64
+Content-ID: <image001.png@01CDA17C.8F5FCF90>
+
+iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAAAXNSR0IArs4c6QAAAAlwSFlzAAAO
+vgAADr4B6kKxwAAAABZJREFUKFNjfCujwoAbMOGRA0qNVGkAeE4BQbKjMgQAAAAASUVORK5CYII=
+
+------=_NextPart_001_0046_01CDA17C.8FC93FC0--
+
+------=_NextPart_000_0045_01CDA17C.8FC93FC0
+Content-Type: text/plain;
+	name="a text file for attaching.txt"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename="a text file for attaching.txt"
+
+text file contents
+------=_NextPart_000_0045_01CDA17C.8FC93FC0--
