@@ -91,7 +91,10 @@
     <Compile Include="Mime\Header\Received.cs" />
     <Compile Include="Mime\Header\RfcMailAddress.cs" />
     <Compile Include="Mime\Traverse\AttachmentFinder.cs" />
+    <Compile Include="Mime\Traverse\AttachmentWithoutInlineImageFinder.cs" />
     <Compile Include="Mime\Traverse\FindAllMessagePartsWithMediaType.cs" />
+    <Compile Include="Mime\Traverse\FindFirstMessagePartExcludingAttachmentsWithMediaType.cs" />
+    <Compile Include="Mime\Traverse\InlineImageFinder.cs" />
     <Compile Include="Mime\Traverse\IQuestionAnswerMessageTraverser.cs" />
     <Compile Include="Mime\Traverse\FindFirstMessagePartWithMediaType.cs" />
     <Compile Include="Mime\Traverse\MultipleMessagePartFinder.cs" />

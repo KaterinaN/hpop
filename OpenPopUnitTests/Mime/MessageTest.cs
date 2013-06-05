@@ -1337,5 +1337,107 @@ namespace OpenPopUnitTests.Mime
             // IE We should have overwritten the longMessage file with our shortMessage file.
             Assert.AreEqual(messageSmall.RawMessage, messageLoaded.RawMessage);
         }
+
+        [Test]
+        public void TestInlineImageVsAttachment()
+        {
+            Message testMessage = Message.Load(new FileInfo("C:\\Users\\Ryan\\Desktop\\OpenPop Source\\trunk\\OpenPopUnitTests\\TestEmails\\EmailWithInlineImageAndTextAttachment.eml"));
+
+            Assert.AreEqual(1, testMessage.FindAllInlineImages().Count);
+            Assert.AreEqual(2, testMessage.FindAllAttachments().Count);
+            Assert.AreEqual(1, testMessage.FindAllAttachmentsExcludingInlineImages().Count);
+
+        }
+
+        [Test]
+        public void TestCorrectPlainTextBodyWithTextAttachment()
+        {
+            Message testMessage = Message.Load(new FileInfo("C:\\Users\\Ryan\\Desktop\\OpenPop Source\\trunk\\OpenPopUnitTests\\TestEmails\\EmailWithInlineImageAndTextAttachment.eml"));
+
+            Assert.IsTrue(testMessage.IsBodyHTML);
+            Assert.AreEqual("Inline image here:\r\n\r\n\r\n\r\n", testMessage.PlainTextBody);
+        }
+
+        [Test]
+        public void TestCorrectHtmlBodyWithHtmlAttachment()
+        {
+            Message testMessage = Message.Load(new FileInfo("C:\\Users\\Ryan\\Desktop\\OpenPop Source\\trunk\\OpenPopUnitTests\\TestEmails\\EmailWithAVGCertificationMessageAttached.eml"));
+
+            Assert.IsTrue(testMessage.IsBodyHTML);
+            Assert.AreEqual("Main body here\r\n\r\n", testMessage.PlainTextBody);
+
+            string expectedHtmlBody = "<html xmlns:v=\"urn:schemas-microsoft-com:vml\" " +
+"xmlns:o=\"urn:schemas-microsoft-com:office:office\" " +
+"xmlns:w=\"urn:schemas-microsoft-com:office:word\" " +
+"xmlns:m=\"http://schemas.microsoft.com/office/2004/12/omml\" " +
+"xmlns=\"http://www.w3.org/TR/REC-html40\"><head><META " +
+"HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; " +
+"charset=us-ascii\"><meta name=Generator content=\"Microsoft Word 14 " +
+"(filtered medium)\"><style><!--\r\n" +
+"/* Font Definitions */\r\n" +
+"@font-face\r\n" +
+"	{font-family:Calibri;\r\n" +
+"	panose-1:2 15 5 2 2 2 4 3 2 4;}\r\n" +
+"@font-face\r\n" +
+"	{font-family:Tahoma;\r\n" +
+"	panose-1:2 11 6 4 3 5 4 4 2 4;}\r\n" +
+"/* Style Definitions */\r\n" +
+"p.MsoNormal, li.MsoNormal, div.MsoNormal\r\n" +
+"	{margin:0cm;\r\n" +
+"	margin-bottom:.0001pt;\r\n" +
+"	font-size:11.0pt;\r\n" +
+"	font-family:\"Calibri\",\"sans-serif\";\r\n" +
+"	mso-fareast-language:EN-US;}\r\n" +
+"a:link, span.MsoHyperlink\r\n" +
+"	{mso-style-priority:99;\r\n" +
+"	color:blue;\r\n" +
+"	text-decoration:underline;}\r\n" +
+"a:visited, span.MsoHyperlinkFollowed\r\n" +
+"	{mso-style-priority:99;\r\n" +
+"	color:purple;\r\n" +
+"	text-decoration:underline;}\r\n" +
+"p.MsoAcetate, li.MsoAcetate, div.MsoAcetate\r\n" +
+"	{mso-style-priority:99;\r\n" +
+"	mso-style-link:\"Balloon Text Char\";\r\n" +
+"	margin:0cm;\r\n" +
+"	margin-bottom:.0001pt;\r\n" +
+"	font-size:8.0pt;\r\n" +
+"	font-family:\"Tahoma\",\"sans-serif\";\r\n" +
+"	mso-fareast-language:EN-US;}\r\n" +
+"span.BalloonTextChar\r\n" +
+"	{mso-style-name:\"Balloon Text Char\";\r\n" +
+"	mso-style-priority:99;\r\n" +
+"	mso-style-link:\"Balloon Text\";\r\n" +
+"	font-family:\"Tahoma\",\"sans-serif\";}\r\n" +
+"span.EmailStyle19\r\n" +
+"	{mso-style-type:personal;\r\n" +
+"	font-family:\"Calibri\",\"sans-serif\";\r\n" +
+"	color:windowtext;}\r\n" +
+"span.EmailStyle20\r\n" +
+"	{mso-style-type:personal-reply;\r\n" +
+"	font-family:\"Calibri\",\"sans-serif\";\r\n" +
+"	color:#1F497D;}\r\n" +
+".MsoChpDefault\r\n" +
+"	{mso-style-type:export-only;\r\n" +
+"	font-size:10.0pt;}\r\n" +
+"@page WordSection1\r\n" +
+"	{size:612.0pt 792.0pt;\r\n" +
+"	margin:72.0pt 72.0pt 72.0pt 72.0pt;}\r\n" +
+"div.WordSection1\r\n" +
+"	{page:WordSection1;}\r\n" +
+"--></style><!--[if gte mso 9]><xml>\r\n" +
+"<o:shapedefaults v:ext=\"edit\" spidmax=\"1026\" />\r\n" +
+"</xml><![endif]--><!--[if gte mso 9]><xml>\r\n" +
+"<o:shapelayout v:ext=\"edit\">\r\n" +
+"<o:idmap v:ext=\"edit\" data=\"1\" />\r\n" +
+"</o:shapelayout></xml><![endif]--></head><body lang=EN-GB link=blue " +
+"vlink=purple><div class=WordSection1><p class=MsoNormal><span " +
+"style='font-size:10.0pt;font-family:\"Arial\",\"sans-serif\";color:#1F497D;" +
+"mso-fareast-language:EN-GB'>Main body " +
+"here<o:p></o:p></span></p></div></body></html>";
+
+            Assert.AreEqual(expectedHtmlBody, testMessage.HtmlBody);
+
+        }
 	}
 }
